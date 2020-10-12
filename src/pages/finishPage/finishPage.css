@@ -1,0 +1,30 @@
+.wrapper {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-content: center;
+    flex-direction: column;
+}
+
+.score-f {
+    text-align: center;
+    margin-bottom: 80px;
+    font: 200% serif;
+}
+
+.btn-finish {
+    font-size: 20px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    border: 2px solid #CAE4D8;
+    cursor: pointer;
+}
+
+.btn-finish:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+.btn-finish:focus {
+    outline: none;
+}
