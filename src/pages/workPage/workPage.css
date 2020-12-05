@@ -44,3 +44,14 @@ li:hover {
 .green {
     background-color: rgb(3, 185, 58);
 }
+
+.sec-block {
+    text-align: center;
+    margin-left: 45px;
+}
+
+.sec {
+    padding: 10px 10px;
+    background: #CAE4D8;
+    
+}

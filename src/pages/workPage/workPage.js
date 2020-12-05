@@ -6,8 +6,8 @@ import service from '../../service/service';
 export default class WorkPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {ques:1,score:0,isLoaded: false,items:[], showAnswer:false};
-
+        this.state = {ques:1,score:0,isLoaded: false,items:[], showAnswer:false, timer: 10};
+        
         this.service = new service();
 
         this.handleAnswer = this.handleAnswer.bind(this);
@@ -19,6 +19,7 @@ export default class WorkPage extends Component {
                 this.setState({score: this.state.score + 10})
             }
             this.setState({showAnswer: !this.state.showAnswer})
+            clearInterval(this.timerAns);
             this.timerID = setTimeout(
                 () => this.changeQuestion(),
                 1000
@@ -29,7 +30,11 @@ export default class WorkPage extends Component {
     changeQuestion() {
         clearInterval(this.timerID);
         if (this.state.items.length !== this.state.ques) {
-            this.setState({ques: this.state.ques+1, showAnswer: !this.state.showAnswer})
+            this.setState({ques: this.state.ques+1, showAnswer: !this.state.showAnswer, timer: 10})
+            this.timerAns = setTimeout(
+                () => this.handleAnswer(),
+                10000
+            );
         } else {
             this.props.handleClick('finish', this.state.score);
         }
@@ -47,21 +52,30 @@ export default class WorkPage extends Component {
 
     componentDidMount() {
         this.takeMeQuestions();
+        this.timerAns = setTimeout(
+            () => this.handleAnswer(),
+            10000
+        );
+        this.interval = setInterval(() => {
+            if (this.state.timer && !this.state.showAnswer) {
+                this.setState({timer: this.state.timer -1})
+            }
+        }, 1000);
     }
     
     render() {
         if (this.state.isLoaded) {
-            const {ques, items, score} = this.state;
+            const {ques, items, score, timer} = this.state;
             return (
                 <div className='screen'>
                     <div className='header'>
                     <div className='question'>
                         <div className='question-title'>Question</div>
-                        <div className='question-block'>{ques}</div>
+                        <div className='question-block'>{ques}/{items.length}</div>
                     </div>
                     <div className='score'>
                         <div className='score-title'>Score</div>
-                        <div className='score-block'>{score}</div>
+                        <div className='score-block'>{score}/{items.length*10}</div>
                     </div>
                     </div>
                     <div className='content'>
@@ -73,6 +87,9 @@ export default class WorkPage extends Component {
                             }
                             )}
                         </ul>
+                    </div>
+                    <div className='sec-block'>
+                        <div className='sec'>{timer}</div>
                     </div>
                 </div>
             )
